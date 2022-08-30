@@ -1,0 +1,6 @@
+TESTING_BROWSER: chrome
+EXCELL_PATH: ../data/data.xlsx
+SHEET_NAME: Sheet1
+ROW_LENGTH: 6
+
+EXCELL_RESULT_FOLDER: ../result/excell_results/
