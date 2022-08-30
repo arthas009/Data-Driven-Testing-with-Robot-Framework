@@ -8,7 +8,10 @@ Resource    library/library.robot
 
 *** Test Cases ***
 First Test
-    [Documentation]    First example test
+    [Documentation]    Performs navigation and searching for elements based on text in given URLs and texts.
+    ...    - Verifies: 
+    ...    1. Given URLs has at least one element has given text in excell column
     [Tags]    first_test
-    Open XLSX Data
+    [Setup]    Test case Setup for text searching case in URLs
     Check URLs and Report Status in excell
+    [Teardown]    Test case Teardown for text searching case in URLs

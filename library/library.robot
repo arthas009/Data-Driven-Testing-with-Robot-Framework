@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation    All Libraries for example test 
 
-Resource    libraries/excell.robot
 Resource    libraries/mandatory.robot
 Resource    libraries/pagefactory.robot
 
@@ -19,17 +18,17 @@ Check URLs and Report Status in excell
         IF   ${status}==False
             Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
             Write Excel Cell    ${i}    5    No element found with given text. Keyword Failed    ${SHEET_NAME}
-            Log To Console    \n ${url} NOT PASSED
+            Print red log to Console    URL '${url}' with text '${text}' NOT PASSED
             ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
         END
         IF   ${status}==True
-            Log To Console    \n ${url} PASSED
+            Print Green Log to Console    URL '${url}' with text '${text}' PASSED
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
             ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
         END
     END
     ${date}=      Get Current Date      UTC      exclude_millis=yes
-    ${converted}=      Convert Date      ${date}      result_format=%a%B%d_%H%M
+    ${converted}=      Convert Date      ${date}      result_format=%B%d_%H-%M
     ${filename}=    Convert To String    ${converted}.xlsx
     Save Excel    ${filename}
     IF    ${FAILED_TEST_COUNT}!=0
@@ -44,4 +43,14 @@ Navigate ${url} and expect ${text} in page
     Run Keyword If    ${status}==False
     ...    Fail    msg= "No element found with given text"
 
-    
+Print Red Log to Console
+    [Documentation]    Uses red color while printing log to Console
+    [Arguments]    ${log_text}
+    ${red_text}=    Evaluate    "\\033[31m" "\\n${log_text}\\033[0m"
+    Log To Console    ${red_text}
+
+Print Green Log to Console
+    [Documentation]    Uses green color while printing log to Console
+    [Arguments]    ${log_text}
+    ${green_text}=    Evaluate    "\\033[32m" "\\n${log_text}\\033[0m"
+    Log To Console    ${green_text}

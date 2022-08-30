@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation    Mandatory Library for example test 
 
+Resource    excell.robot
+
 Library    SeleniumLibrary
 
 *** Variables ***
@@ -19,3 +21,11 @@ Suite Setup
 Suite Teardown
     [Documentation]    Suite Teardown 
     Close All Browsers
+
+Test case Setup for text searching case in URLs
+    [Documentation]    Opens given Excell Document and Sheet by name
+    Open XLSX Data    excell_path=${EXCELL_PATH}    sheet_name=${SHEET_NAME}
+
+Test case Teardown for text searching case in URLs
+    [Documentation]    Closes all Excell Documents
+    Close All Excel Documents
