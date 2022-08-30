@@ -2,10 +2,10 @@
  Includes sample test case(s) for Data Driven approach using Robot Framework
 
 # Prerequisites
- Python 3.9
- pip install --upgrade robotframework
- pip install --upgrade robotframework-seleniumlibrary
- pip install --upgrade robotframework-excellibrary
+ * Python 3.9
+ * pip install --upgrade robotframework
+ * pip install --upgrade robotframework-seleniumlibrary
+ * pip install --upgrade robotframework-excellibrary
  
  # Execution
  Go to repository folder -> starter script folder 
