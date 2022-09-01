@@ -1,5 +1,6 @@
 # Data Driven Testing with Robot Framework
- Includes sample test case(s) for Data Driven approach using Robot Framework
+ Includes sample test case(s) for Data Driven approach using Robot Framework. 
+ Used page object model approach, data driven approach together.
 
 # Prerequisites
  * Python 3.9
@@ -12,4 +13,8 @@
   * cd .\starter_script\
  
  Execute the following command for execution of robot framework based on tag. 
-  * python -u ./runner.py -i first_test
+  * python -u ./runner.py -i text_searching
+OR
+  * python -u ./runner.py -i invalid_login
+ 
+ .yaml files are chosen by tag name of test case being executed.
