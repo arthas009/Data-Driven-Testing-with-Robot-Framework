@@ -52,7 +52,7 @@ class RobotCaseRunner(object):
         """
 
         print("Resolving var file....")
-        var_file = os.path.normpath(self.cur_path + DEFAULT_SUITE_PATH + DEFAULT_ARG_FOLDER + "localhost.yaml")
+        var_file = os.path.normpath(self.cur_path + DEFAULT_SUITE_PATH + DEFAULT_ARG_FOLDER + self.TAG + ".yaml")
         if os.path.isfile(var_file):
             print("Using var file: {}".format(var_file))
             return var_file

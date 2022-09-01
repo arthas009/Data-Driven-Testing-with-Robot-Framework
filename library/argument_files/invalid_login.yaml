@@ -1,0 +1,7 @@
+TESTING_BROWSER: chrome
+URL: http://automationpractice.com/index.php?controller=authentication
+EXCELL_PATH: ../data/invalid_login_data.xlsx
+SHEET_NAME: Sheet1
+ROW_LENGTH: 10
+
+EXCELL_RESULT_FOLDER: ../result/excell_results/

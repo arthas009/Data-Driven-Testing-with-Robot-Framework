@@ -4,12 +4,11 @@ Documentation    All Libraries for example test
 Resource    libraries/mandatory.robot
 Resource    libraries/pagefactory.robot
 
-Library    DateTime
 Library    OperatingSystem
 
 *** Keywords ***
 
-Check URLs and Report Status in excell
+Check URLs and Report Status in Excell
     [Documentation]    Iterates through all rows in excell file and reads all columns
     FOR    ${i}    IN RANGE    2    ${ROW_LENGTH}
         ${url}    Read Excel Cell    ${i}    1
@@ -27,14 +26,37 @@ Check URLs and Report Status in excell
             ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
         END
     END
-    ${date}=      Get Current Date      UTC      exclude_millis=yes
-    ${converted}=      Convert Date      ${date}      result_format=%B%d_%H-%M
-    ${filename}=    Convert To String    ${converted}.xlsx
-    Save Excel    ${filename}
-    IF    ${FAILED_TEST_COUNT}!=0
-    Fail    msg= "At least one URL check is failed, check result .xlsx file. Test case status: FAIL"
+
+Try Invalid Login Attempts and Report Status in Excell
+    [Documentation]    Iterates through all rows in excell file and tries login attempts with usernames and passwords
+    FOR    ${i}    IN RANGE    2    ${ROW_LENGTH}
+        ${username}    Read Excel Cell    ${i}    1
+        ${password}    Read Excel Cell    ${i}    2
+        ${status}=    Run Keyword And Return Status    Try Invalid Login Attempt and Expect Failure    ${username}    ${status}
+        IF   ${status}==False
+            Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
+            Write Excel Cell    ${i}    5    No element found about login failure. Keyword Failed    ${SHEET_NAME}
+            Print red log to Console    URL '${username}' with password '${password}' NOT PASSED
+            ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
+        END
+        IF   ${status}==True
+            Print Green Log to Console    URL '${username}' with password '${password}' PASSED
+            Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
+            ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
+        END
     END
-    Log To Console    "All URLs are checked correctly. Test case status: PASS"
+
+Try Invalid Login Attempt and Expect Failure
+    [Documentation]    Tries login attempts with username and password
+    [Arguments]    ${username}    ${password}
+    Wait Element to be Visible by attribute    title    Log in to your customer account
+    Click Element found by attribute    title    Log in to your customer account
+    Wait Element to be visible by attribute    name    email
+    Wait Element to be visible by attribute    name    passwd
+    Input Element found by attribute    name    email    ${username}
+    Input Element found by attribute    name    passwd    ${password}
+    Click Sign In button
+    Wait Element to be visible by text    There is 1 error
 
 Navigate ${url} and expect ${text} in page
     [Documentation]    Navigates to given url and search for div and span elements by given text

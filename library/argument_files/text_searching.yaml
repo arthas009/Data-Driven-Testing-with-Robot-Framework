@@ -1,6 +1,7 @@
 TESTING_BROWSER: chrome
-EXCELL_PATH: ../data/data.xlsx
+URL: htttps://www.google.com
+EXCELL_PATH: ../data/text_searching_data.xlsx
 SHEET_NAME: Sheet1
-ROW_LENGTH: 6
+ROW_LENGTH: 9
 
 EXCELL_RESULT_FOLDER: ../result/excell_results/

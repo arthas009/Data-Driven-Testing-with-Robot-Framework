@@ -7,11 +7,20 @@ Force Tags        sites
 Resource    library/library.robot
 
 *** Test Cases ***
-First Test
+Search Texts
     [Documentation]    Performs navigation and searching for elements based on text in given URLs and texts.
     ...    - Verifies: 
     ...    1. Given URLs has at least one element has given text in excell column
-    [Tags]    first_test
-    [Setup]    Test case Setup for text searching case in URLs
+    [Tags]    text_searching
+    [Setup]    Test case Setup
     Check URLs and Report Status in excell
-    [Teardown]    Test case Teardown for text searching case in URLs
+    [Teardown]    Test case Teardown
+
+Invalid Logins
+    [Documentation]    Tries invalid login attempts
+    ...    - Verifies: 
+    ...    1. Each invalid username/password combination is redirecting to error page
+    [Tags]    invalid_login
+    [Setup]    Test case Setup
+    Try Invalid Login Attempts and Report Status in Excell
+    [Teardown]    Test case Teardown
