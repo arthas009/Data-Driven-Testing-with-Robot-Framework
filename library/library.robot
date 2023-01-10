@@ -1,9 +1,11 @@
 *** Settings ***
 Documentation    All Libraries for example test 
 
-Resource    libraries/mandatory.robot
 Resource    libraries/pagefactory.robot
+Resource    libraries/excell.robot
 
+Library    DateTime
+Library    SeleniumLibrary
 Library    OperatingSystem
 
 *** Variables ***
@@ -25,16 +27,15 @@ Check URLs and Report Status in Excell
             Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
             Write Excel Cell    ${i}    5    No element found with given text. Keyword Failed    ${SHEET_NAME}
             Print red log to Console    URL '${url}' with text '${text}' NOT PASSED
-            ${placeholder} =    Evaluate    ${FAILED_TEST_COUNT} + ${ONE} 
-            Set Global Variable    ${FAILED_TEST_COUNT}    ${placeholder}
+            ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
         END
         IF   ${status}==True
             Print Green Log to Console    URL '${url}' with text '${text}' PASSED
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
-            ${placeholder} =    Evaluate    ${PASSED_TEST_COUNT} + ${ONE} 
-            Set Global Variable    ${PASSED_TEST_COUNT}    ${placeholder}
+            ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
         END
     END
+    Log To Console    Failed test count is: ${FAILED_TEST_COUNT}
 
 Try Invalid Login Attempts and Report Status in Excell
     [Documentation]    Iterates through all rows in excell file and tries login attempts with usernames and passwords
@@ -47,14 +48,12 @@ Try Invalid Login Attempts and Report Status in Excell
             Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
             Write Excel Cell    ${i}    5    No element found about login failure. Keyword Failed    ${SHEET_NAME}
             Print red log to Console    URL '${username}' with password '${password}' NOT PASSED
-            ${placeholder} =    Evaluate    ${FAILED_TEST_COUNT} + ${ONE} 
-            Set Global Variable    ${FAILED_TEST_COUNT}    ${placeholder}
+            ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
         END
         IF   ${status}==True
             Print Green Log to Console    URL '${username}' with password '${password}' PASSED
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
-            ${placeholder} =    Evaluate    ${PASSED_TEST_COUNT} + ${ONE} 
-            Set Global Variable    ${PASSED_TEST_COUNT}    ${placeholder}
+            ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
         END
         Go To    ${URL}
     END
@@ -93,3 +92,31 @@ Print Green Log to Console
     [Arguments]    ${log_text}
     ${green_text}=    Evaluate    "\\033[32m" "\\n${log_text}\\033[0m"
     Log To Console    ${green_text}
+
+Suite Setup
+    [Documentation]    Example suite Setup 
+    Open Browser    ${URL}    ${TESTING_BROWSER}
+    Maximize Browser Window
+    
+Suite Teardown
+    [Documentation]    Suite Teardown 
+    Close All Browsers
+
+Test case Setup
+    [Documentation]    Opens given Excell Document and Sheet by name
+    Open XLSX Data    excell_path=${EXCELL_PATH}    sheet_name=${SHEET_NAME}
+    
+Test case Teardown
+    [Documentation]    Closes all Excell Documents
+    ${date}=      Get Current Date      UTC      exclude_millis=yes
+    ${converted}=      Convert Date      ${date}      result_format=%B%d_%H-%M
+    ${filename}=    Convert To String    ${converted}.xlsx
+    Save Excel    ${filename}
+
+    Log To Console    Failed Test Count is: ${FAILED_TEST_COUNT}
+
+    IF    ${FAILED_TEST_COUNT} != 0
+    Fail    msg= "At least one URL check is failed, check result .xlsx file. Test case status: FAIL"
+    END
+    Log To Console    "All URLs are checked correctly. Test case status: PASS"
+    Close All Excel Documents

@@ -20,6 +20,18 @@ Save Excel
     Create Directory    ${excell_path}
     Save Excel Document    ${excell_path}${test_result_filaname}
 
+Excell Cell Should Be
+    [Documentation]    Compares value on given row and column
+    [Arguments]    ${row}    ${column}    ${expected_value}
+    ${cell_value}    Read Excel Cell    ${row}    ${column}
+    Should Be Equal As Strings    ${expected_value}    ${cell_value}
+
+Excell Cell Should Not Be
+    [Documentation]    Compares value on given row and column
+    [Arguments]    ${row}    ${column}    ${expected_value}
+    ${cell_value}    Read Excel Cell    ${row}    ${column}
+    Should Not Be Equal As Strings    ${expected_value}    ${cell_value}
+
 Print All Columns
     [Documentation]    Prints all columns in opened XLSX data
     ${col1}=    Create List
