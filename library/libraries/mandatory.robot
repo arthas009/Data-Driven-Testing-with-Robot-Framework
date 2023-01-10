@@ -32,8 +32,8 @@ Test case Teardown
     ${converted}=      Convert Date      ${date}      result_format=%B%d_%H-%M
     ${filename}=    Convert To String    ${converted}.xlsx
     Save Excel    ${filename}
-    IF    ${FAILED_TEST_COUNT}!=0
-    Fail    msg= "At least one URL check is failed, check result .xlsx file. Test case status: FAIL"
+    IF    ${FAILED_TEST_COUNT} != 0
+    Fail    msg= "Case is failed for one or more data, check result .xlsx file. Test case status: FAIL"
     END
-    Log To Console    "All URLs are checked correctly. Test case status: PASS"
+    Log To Console    "Test case status: PASS"
     Close All Excel Documents

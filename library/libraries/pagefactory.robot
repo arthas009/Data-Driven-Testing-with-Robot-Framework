@@ -2,6 +2,7 @@
 Documentation    Library for example test 
 
 Library    SeleniumLibrary
+Library    XML
 
 *** Keywords ***
 
@@ -16,13 +17,19 @@ Verify Element ${text} exists by text
     Wait Until Element Is Visible    //*[contains(text(),'${text}')]    timeout=10s
 
 Wait Element to be Visible by text
-    [Documentation]    Finds element by name
-    [Arguments]    ${name}
-    Wait Until Element Is Enabled    //*[text()='${name}']    timeout=10s
-    Wait Until Element Is Visible    //*[text()='${name}']    timeout=10s
+    [Documentation]    Waits for element to visible by text
+    [Arguments]    ${text}
+    Wait Until Element Is Enabled    //*[contains(text(),'${text}')]    timeout=10s
+    Wait Until Element Is Visible    //*[contains(text(),'${text}')]    timeout=10s
 
+Wait body text to be Visible
+    [Documentation]    Waits for element to visible by text
+    [Arguments]    ${text}
+    ${body_text}=    Get Text    //body
+    Should Contain    ${body_text}    ${text}
+    
 Wait Element to be Visible by attribute
-    [Documentation]    Finds element by name
+    [Documentation]   Waits for element to visible by attribute
     [Arguments]    ${attribute}    ${name}
     Wait Until Element Is Enabled    //*[@${attribute}='${name}']    timeout=10s
     Wait Until Element Is Visible    //*[@${attribute}='${name}']    timeout=10s
@@ -41,8 +48,8 @@ Click Element found by attribute
     Wait Until Element Is Visible    //*[@${attribute}='${attribute_value}']    timeout=10s
     Click Element     //*[@${attribute}='${attribute_value}']
 
-Click Sign In button
-    [Documentation]    Clicks on given element by xpath
-    Wait Until Element Is Enabled    //*[@id="SubmitLogin"]/span/i
-    Wait Until Element Is Visible    //*[@id="SubmitLogin"]/span/i
-    Click Element     //*[@id="SubmitLogin"]/span/i
+Click Login button
+    [Documentation]    Clicks on Login button which is value = Login
+    Wait Until Element Is Enabled    //*[@value="Login"]
+    Wait Until Element Is Visible    //*[@value="Login"]
+    Click Element     //*[@value="Login"]

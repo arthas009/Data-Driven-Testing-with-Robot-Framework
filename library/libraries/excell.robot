@@ -24,7 +24,8 @@ Print All Columns
     [Documentation]    Prints all columns in opened XLSX data
     ${col1}=    Create List
     ${col2}=    Create List
-    FOR    ${i}    IN RANGE    2    ROW_LENGTH
+    ${row_length} =    Get Row Count    ${SHEET_NAME}
+    FOR    ${i}    IN RANGE    2    row_length
         ${username}    Read Excel Cell    ${i}    1
         ${password}    Read Excel Cell    ${i}    2
         Append To List    ${col1}    ${username}

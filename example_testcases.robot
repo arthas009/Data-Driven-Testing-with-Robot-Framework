@@ -2,7 +2,6 @@
 Suite Setup       Suite Setup
 Suite Teardown    Suite Teardown
 Test Timeout      15 minutes
-Force Tags        sites
 
 Resource    library/library.robot
 
