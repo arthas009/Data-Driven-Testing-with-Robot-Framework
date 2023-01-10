@@ -27,13 +27,14 @@ Check URLs and Report Status in Excell
             Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
             Write Excel Cell    ${i}    5    No element found with given text. Keyword Failed    ${SHEET_NAME}
             Print red log to Console    URL '${url}' with text '${text}' NOT PASSED
-            ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
+            ${placeholder} =    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
+            Set Global Variable    ${FAILED_TEST_COUNT}    ${placeholder}
         END
         IF   ${status}==True
             Print Green Log to Console    URL '${url}' with text '${text}' PASSED
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
-            ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
-        END
+            ${placeholder} =    Evaluate    ${PASSED_TEST_COUNT}+${ONE}
+            Set Global Variable    ${PASSED_TEST_COUNT}    ${placeholder}
     END
     Log To Console    Failed test count is: ${FAILED_TEST_COUNT}
 
@@ -48,12 +49,14 @@ Try Invalid Login Attempts and Report Status in Excell
             Write Excel Cell    ${i}    4    FAIL    ${SHEET_NAME}
             Write Excel Cell    ${i}    5    No element found about login failure. Keyword Failed    ${SHEET_NAME}
             Print red log to Console    URL '${username}' with password '${password}' NOT PASSED
-            ${FAILED_TEST_COUNT}=    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
+            ${placeholder} =    Evaluate    ${FAILED_TEST_COUNT}+${ONE}
+            Set Global Variable    ${FAILED_TEST_COUNT}    ${placeholder}
         END
         IF   ${status}==True
             Print Green Log to Console    URL '${username}' with password '${password}' PASSED
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
-            ${PASSED_TEST_COUNT}=    Evaluate    ${PASSED_TEST_COUNT+1}+${ONE}
+            ${placeholder} =    Evaluate    ${PASSED_TEST_COUNT}+${ONE}
+            Set Global Variable    ${PASSED_TEST_COUNT}    ${placeholder}
         END
         Go To    ${URL}
     END
