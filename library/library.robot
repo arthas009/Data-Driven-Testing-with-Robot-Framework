@@ -35,6 +35,7 @@ Check URLs and Report Status in Excell
             Write Excel Cell    row_num=${i}    col_num=4    value=PASS    sheet_name=${SHEET_NAME}
             ${placeholder} =    Evaluate    ${PASSED_TEST_COUNT}+${ONE}
             Set Global Variable    ${PASSED_TEST_COUNT}    ${placeholder}
+        END
     END
     Log To Console    Failed test count is: ${FAILED_TEST_COUNT}
 
